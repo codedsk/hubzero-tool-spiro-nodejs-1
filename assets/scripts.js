@@ -22,13 +22,19 @@ $(document).ready( function() {
         // put the results in a div
         posting.done(function(data,status) {
             console.log("status : " + status);
-            console.log("data : " + data);
             console.log("data : " + JSON.stringify(data));
-            $( "#spirograph_js" ).empty().innerHTML = data
 
-            //var content = $( data ).find( "#content" );
-            //console.log("content : " + content);
-            // $( "#spirograph_js" ).empty().append(content)
+            spirograph = document.getElementById('spirograph');
+            Plotly.newPlot(
+                spirograph,
+                [{
+                    x: data.outputs.x,
+                    y: data.outputs.y
+                }],
+                {
+                    margin: { t: 0 }
+                }
+            );
         });
     });
 });

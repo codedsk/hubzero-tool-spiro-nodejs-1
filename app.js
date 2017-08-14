@@ -1,7 +1,6 @@
 var express = require('express');
 var child_process = require('child_process');
 var fs = require('fs');
-// var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
@@ -88,7 +87,7 @@ app.post('/', function(req, res) {
 
     // send plotly javascript back to client
     console.log('returning results to client');
-    res.render('plot',{data : data});
+    res.type('json').send(data)
 
 });
 
