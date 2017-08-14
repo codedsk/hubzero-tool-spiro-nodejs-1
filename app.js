@@ -57,6 +57,9 @@ app.post('/', function(req, res) {
     console.log('sanitized data from client to simulation:');
     console.log(data);
 
+    // FIXME: send error if form data did not pass validation.
+    // FIXME: update python script to read and write data through stdin/stdout.
+
     var inFileName = 'spiro.in';
     var outFileName = 'spiro.out';
 
