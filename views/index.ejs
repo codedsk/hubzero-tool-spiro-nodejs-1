@@ -8,6 +8,12 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+          </script>
         <script src="assets/scripts.js"></script>
     </head>
     <body>
@@ -16,7 +22,10 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-sm-4 well well-sm text-center">
+                <div class="col-sm-4 text-center well well-sm">
+                    <p>The spirograph equation for three of more wheels can be generalized as follows:</p>
+                    <p>$$z(t) = \sum_{k=1}^n a_k e^{i2\pi(n_kt+\theta_k)}$$</p>
+                    <p>This program solves those equations for three wheels, assuming all of the $a$ coefficients are 1 and $\theta$ coefficients are 0. Find more details online at <br/><a href="http://linuxgazette.net/133/luana.html">http://linuxgazette.net/133/luana.html</a></p>.
                     <form id="myForm" action="/" method="post">
                         <!-- use bootstrap's form-group class to fix spacing between inputs -->
                         <div class="form-group">
