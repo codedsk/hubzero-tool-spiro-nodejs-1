@@ -1,5 +1,5 @@
 {
-  "name": "spironode1",
+  "name": "hubzero-tool-spiro-nodejs-1",
   "version": "1.0.0",
   "description": "spirograph in nodejs (calling python)",
   "main": "app.js",

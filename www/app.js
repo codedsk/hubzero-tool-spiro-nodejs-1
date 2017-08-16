@@ -3,13 +3,15 @@ var child_process = require('child_process');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
+var path = require('path');
 
 var app = express();
 
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname,'views'));
 
 // find static files (referenced by /assets) in the assets directory
-app.use('/assets', express.static('assets'));
+app.use('/assets', express.static(path.join(__dirname,'assets')));
 
 // use bodyParser middleware to get data from post requests
 app.use(bodyParser.json());
@@ -91,6 +93,6 @@ app.post('/', function(req, res) {
 
 });
 
-app.listen(3000, function() {
-    console.log('server running on port 3000');
+app.listen(8001, function() {
+    console.log('server running on port 8001');
 });
