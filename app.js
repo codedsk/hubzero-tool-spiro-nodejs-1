@@ -58,7 +58,8 @@ app.post('/', function(req, res) {
     console.log(data);
 
     // FIXME: send error if form data did not pass validation.
-    // FIXME: update python script to read and write data through stdin/stdout.
+    // FIXME: look into form validation bubbles:
+    // http://developer.telerik.com/featured/building-html5-form-validation-bubble-replacements/
 
     var inFileName = 'spiro.in';
     var outFileName = 'spiro.out';
@@ -69,11 +70,7 @@ app.post('/', function(req, res) {
     // kick off a simulation run
     console.log('running the simulation');
     var spawnSync = child_process.spawnSync;
-    var process = spawnSync(
-                    'python', [
-                        'spiro.py',
-                        '--infile', inFileName,
-                        '--outfile', outFileName ]);
+    var process = spawnSync( 'python', [ 'spiro.py', '--use-stdstreams' ]);
 
     // read output file
     data = JSON.parse(fs.readFileSync(outFileName,'utf8'));

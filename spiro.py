@@ -22,6 +22,12 @@ def parseoptions():
                     default='spiro.out',
                     type=str)
 
+    parser.add_argument('--use-stdstreams',
+                    help='Send input and output through standard input and output streams.',
+                    action='store_true',
+                    dest='usestdstreams',
+                    default=False)
+
 
     parser.add_argument('remainder', nargs=argparse.REMAINDER)
 
@@ -47,22 +53,28 @@ if __name__ == "__main__":
     n3 = 0
 
     # read inputs
-    with open(options.infile, "r") as infile:
-        infile.seek(0)
-        data = json.load(infile)
-        n1 = data['inputs']['n1']
-        n2 = data['inputs']['n2']
-        n3 = data['inputs']['n3']
+    if options.usestdstreams:
+        data = json.load(sys.stdin)
+    else:
+        with open(options.infile, "r") as infile:
+            data = json.load(infile)
+
+    n1 = data['inputs']['n1']
+    n2 = data['inputs']['n2']
+    n3 = data['inputs']['n3']
 
     # run the simulation
     (x,y) = spiro(n1,n2,n3)
 
     # write outputs
-    with open(options.outfile, "w") as outfile:
-        data['outputs'] = {
-            'x': x.tolist(),
-            'y': y.tolist()
-        }
-        json.dump(data,outfile)
+    data['outputs'] = {
+        'x': x.tolist(),
+        'y': y.tolist()
+    }
 
-    print options.outfile
+    if options.usestdstreams:
+        json.dump(data,sys.stdout)
+    else:
+        with open(options.outfile, "w") as outfile:
+            json.dump(data,outfile)
+        print options.outfile
