@@ -1,6 +1,6 @@
 #!/bin/sh
 
-/usr/bin/invoke_app "$@" -t spironodejs1 \
+/usr/bin/invoke_app "$@" -t spironode1 \
     -u wrwroxy-0.1 \
     -u node-6.11.2 \
     -w "none" \
