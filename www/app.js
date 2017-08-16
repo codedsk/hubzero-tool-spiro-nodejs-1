@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var child_process = require('child_process');
 var fs = require('fs');
@@ -63,34 +65,30 @@ app.post('/', function(req, res) {
     // FIXME: look into form validation bubbles:
     // http://developer.telerik.com/featured/building-html5-form-validation-bubble-replacements/
 
-    var inFileName = 'spiro.in';
-    var outFileName = 'spiro.out';
-
-    // write inputs to file
-    fs.writeFileSync(inFileName, JSON.stringify(data));
-
     // kick off a simulation run
     console.log('running the simulation');
-    var spawnSync = child_process.spawnSync;
-    var process = spawnSync( 'python', [ 'spiro.py', '--use-stdstreams' ]);
+    var spawn = child_process.spawn;
+    var spiroPath = path.join(__dirname,'spiro.py');
+    var process = spawn( 'python', [ spiroPath, '--use-stdstreams' ]);
+
+    // feed inputs into simulator
+    process.stdin.write(JSON.stringify(data));
+    process.stdin.end();
 
     // read output file
-    data = JSON.parse(fs.readFileSync(outFileName,'utf8'));
+    let results = [];
+    process.stdout
+        .on('data', (chunk) => {
+            console.log('receiving results from simulation');
+            results.push(chunk);
+        })
+        .on('end', () => {
+            results = JSON.parse(Buffer.concat(results).toString('utf8'));
 
-    fs.unlink(inFileName, (err) => {
-        if (err) throw err;
-        console.log('deleted ' + inFileName);
-    });
-
-    fs.unlink(outFileName, (err) => {
-        if (err) throw err;
-        console.log('deleted ' + outFileName);
-    });
-
-    // send plotly javascript back to client
-    console.log('returning results to client');
-    res.type('json').send(data)
-
+            // send plotly javascript back to client
+            console.log('returning results to client');
+            res.type('json').send(results)
+        });
 });
 
 app.listen(8001, function() {
