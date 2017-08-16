@@ -1,0 +1,9 @@
+#!/bin/sh
+
+/usr/bin/invoke_app "$@" -t spironodejs1 \
+    -u wrwroxy-0.1 \
+    -u nodejs-6.11.2 \
+    -w "none" \
+    -c "xview -fullscreen -onroot \${NODE_LOGO_PATH}" \
+    -c "wrwroxy --stream-log --logfile /dev/null" \
+    -C "nodejs @tool/www/app.js"
